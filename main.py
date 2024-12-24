@@ -46,12 +46,7 @@ pennies = 0.25 + 0.1 x 2 + 0.05 + 0.01 x 2 = $0.52
     '''
 
 
-            
-def shutdown():
-    return 
 
-def Check_transaction():
-    pass
 
 def is_resource_sufficient(order_ingredients):
     """Returns True when order can be made, False if ingredients are insufficient."""
@@ -61,38 +56,34 @@ def is_resource_sufficient(order_ingredients):
             return False
     return True
 
-
-def generate_report():
-    pass
-
-
-def make_espresso(menu):
-    if resource_checker():
-        # 50ml water | 18ml coffee
-        for k,v in MENU:
-            print(f'key={k} and value={v}')
+def process_coins():
+    """Returns the total calculated from coins inserted."""
+    print("Please insert coins.")
+    total = int(input("how many quarters?: ")) * 0.25
+    total += int(input("how many dimes?: ")) * 0.1
+    total += int(input("how many nickles?: ")) * 0.05
+    total += int(input("how many pennies?: ")) * 0.01
+    return total
 
 
+def is_transaction_successful(money_received, drink_cost):
+    """Return True when the payment is accepted, or False if money is insufficient."""
+    if money_received >= drink_cost:
+        change = round(money_received - drink_cost, 2)
+        print(f"Here is ${change} in change.")
+        global profit
+        profit += drink_cost
+        return True
+    else:
+        print("Sorry that's not enough money. Money refunded.")
+        return False
 
-def make_cappuccino():
-   if resource_checker():
-        # 200ml water | 24g coffee | 150ml milk
-        pass
-   
-def make_latte():
-   if resource_checker():
-        # 250ml water | 24g coffee | 100ml milk
-        pass 
 
-def options_checker(option):
-    if option == "espresso":
-        make_espresso()
-    if option == "cappuccino":
-        make_cappuccino()
-    if option == "latte":
-        make_latte()
-    if option == "off":
-        shutdown()
+def make_coffee(drink_name, order_ingredients):
+    """Deduct the required ingredients from the resources."""
+    for item in order_ingredients:
+        resources[item] -= order_ingredients[item]
+    print(f"Here is your {drink_name} ☕️. Enjoy!")
 
 
 is_on = True
